@@ -127,6 +127,21 @@ class LinkList
     @head = previous
   end
 
+  def get_nth_from_the_end(nth)
+    return if nth > @length
+
+    fast_node = slow_node = @head
+
+    0.upto(nth - 1) { fast_node = fast_node.next_node }
+
+    while fast_node
+      fast_node = fast_node.next_node
+      slow_node = slow_node.next_node
+    end
+
+    slow_node.value
+  end
+
   def print
     return unless @head
 
@@ -181,7 +196,8 @@ list.push(80)
 list.push(90)
 list.push(100)
 
+list.reverse
 
-list.reverse()
+puts list.get_nth_from_the_end(10)
 
 list.print()
