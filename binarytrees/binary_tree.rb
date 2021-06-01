@@ -40,6 +40,22 @@ class Tree
     end
   end
 
+  def exist?(value)
+    current = @root
+
+    while current
+      return true if current.value == value
+
+      if current.value > value
+        current = current.left
+      else
+        current = current.right
+      end
+    end
+
+    false
+  end
+
   def print(root = @root)
     return unless root
 
@@ -56,4 +72,5 @@ tree.add(6)
 tree.add(9)
 tree.add(10)
 
+tree.exist?(10)
 tree.print()
