@@ -1,3 +1,4 @@
+require "pry"
 class Node
   attr_accessor :value
   attr_accessor :left
@@ -11,6 +12,10 @@ class Node
 
   def is_leaf?
     @left.nil? && @right.nil?
+  end
+
+  def show
+    puts "Node is: #{@value}\n"
   end
 end
 
@@ -56,12 +61,48 @@ class Tree
     false
   end
 
-  def print(root = @root)
+  # 1. breadth first: Level order
+  # 2. depth first:
+  #   2.1 Pre-order (root, left, right)
+  #   2.2 In-order (left, root, right) => sort small to big
+  #   2.3 Post-order (left, right, root)
+  def pre_order(root = @root)
     return unless root
 
-    puts "Node is: #{root.value}\n"
-    print(root.left) if root.left
-    print(root.right) if root.right
+    root.show()
+    pre_order(root.left) if root.left
+    pre_order(root.right) if root.right
+  end
+
+  def in_order(root = @root)
+    return unless root
+
+    in_order(root.left) if root.left
+    root.show()
+    in_order(root.right) if root.right
+  end
+
+  def in_order2(root = @root)
+    return unless root
+
+    in_order2(root.right) if root.right
+    root.show()
+    in_order2(root.left) if root.left
+  end
+
+  def post_order(root = @root)
+    return unless root
+
+    post_order(root.left) if root.left
+    post_order(root.right) if root.right
+    root.show()
+  end
+
+  def height(root = @root)
+    return -1 unless root
+    return 0 if root.is_leaf?
+
+    1 + [height(root.left), height(root.right)].max
   end
 end
 
@@ -73,4 +114,10 @@ tree.add(9)
 tree.add(10)
 
 tree.exist?(10)
-tree.print()
+tree.in_order()
+puts "----\n"
+tree.in_order2()
+puts "----\n"
+tree.post_order
+
+puts "Height: #{tree.height()}"
